@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/dsaseymour/MERNskeleton/issues"
   },
-  "homepage": "https://github.com/dsaseymour/MERNskeleton#readme"
+  "homepage": "https://github.com/dsaseymour/MERNskeleton#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0"
+  }
 }
