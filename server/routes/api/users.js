@@ -1,10 +1,11 @@
 const express = require("express");
-const router = express.Router();
+const router = require("express-promise-router")();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../../models/User");
+const UsersController = require("../../controllers/users");
 const { check, validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
 /* //==========================================================================================================//GET  ROUTES BEGIN 
@@ -17,13 +18,7 @@ router.get(
   passport.authenticate("jwt", {
     session: false
   }),
-  (res, req) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
-    });
-  }
+  UsersController.getCurrentUser
 );
 /* //========================================================================================================================
 //GET  ROUTES END 
@@ -47,25 +42,13 @@ router.post(
       req.body.confirmPassword
     )
   ],
-
-  (res, req) => {
-    const errors = validationResult(req);
-    if (!isEmpty(errors)) {
-      return res.status(422).json({
-        errors: errors.array()
-      });
-    }
-  }
+  UsersController.registerUser
 );
 
 //@router POST api/users/login
 // @desc User Login
 //@access Public
-router.post(
-  "/login",
-
-  (res, req) => {}
-);
+router.post("/login", [], UsersController.loginUser);
 /* //========================================================================================================================
 //POST ROUTES END 
 //========================================================================================================================*/
@@ -80,13 +63,7 @@ router.delete(
   passport.authenticate("jwt", {
     session: false
   }),
-  (req, res) => {
-    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
-      User.findOneAndRemove({ _id: req.user.id }).then(() => {
-        res.json({ success: true });
-      });
-    });
-  }
+  UsersController.deleteUser
 );
 /* //========================================================================================================================
 //DELETE ROUTES END 
