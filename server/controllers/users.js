@@ -44,6 +44,48 @@ module.exports = {
       });
     });
   },
+  loginUser: async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!isEmpty(errors)) {
+      return res.status(422).json({
+        errors: errors.array()
+      });
+    }
+
+    const email = req.body.email;
+
+    const plaintextpassword = req.body.password;
+
+    const foundUser = await User.findOne({ email });
+
+    if (!foundUser) {
+      errors.email = "User not found";
+      return res.status(404).json(errors);
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      plaintextpassword,
+      foundUser.password
+    );
+
+    if (passwordMatch) {
+      const userJWTPayload = { id: user.id, name: user.name };
+      jwt.sign(
+        userJWTPayload,
+        process.env.JWT_SECRET,
+        { expiresIn: 3600 },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        }
+      );
+    } else {
+      errors.password = "Password incorrect";
+      return res.status(400).json(errors);
+    }
+  },
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
