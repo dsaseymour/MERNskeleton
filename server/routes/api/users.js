@@ -8,6 +8,8 @@ const User = require("../../models/User");
 const UsersController = require("../../controllers/users");
 const { check, validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
+const PassportJwtConf = require("../../config/passport_jwtstrategy");
+
 /* //==========================================================================================================//GET  ROUTES BEGIN 
 //=======================================================================================================*/
 //@router GET api/users/current

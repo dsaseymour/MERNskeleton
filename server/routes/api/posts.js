@@ -5,6 +5,7 @@ const passport = require("passport");
 const Post = require("../../models/Post");
 const Profile = require("../../models/Profile");
 const PostController = require("../../controllers/posts");
+const PassportJwtConf = require("../../config/passport_jwtstrategy");
 
 /* //==========================================================================================================//GET  ROUTES BEGIN 
 //=======================================================================================================*/
