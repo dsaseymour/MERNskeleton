@@ -1,23 +1,35 @@
-const FacebookStrategy = require("passport-facebook").Strategy;
+const FacebookTokenStrategy = require("passport-facebook-token").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
 
 module.exports = passport => {
   passport.use(
-    new FacebookStrategy(
+    "facebookToken",
+    new FacebookTokenStrategy(
       {
-        clientID: process.env.FACEBOOKAPPID,
-        clientSecret: process.env.FACEBOOKAPPSECRET,
-        callbackURL: "http://www.example.com/auth/facebook/callback"
+        clientID: process.env.FB_ID,
+        clientSecret: process.env.FB_SECRET,
+        callbackURL: process.env.FB_URL
       },
-      function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate(function(err, user) {
-          if (err) {
-            return done(err);
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const foundUser = await User.findOne({ "facebook.id": profile.id });
+          if (foundUser) {
+            return done(null, foundUser);
           }
+          const createNewUser = new User({
+            method: "facebook",
+            facebook: {
+              id: profile.id,
+              email: profile.emails[0].value
+            }
+          });
 
-          done(null, user);
-        });
+          await createNewUser.save();
+          done(null, createNewUser);
+        } catch (error) {
+          done(error, false, error.message);
+        }
       }
     )
   );

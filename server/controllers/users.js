@@ -86,6 +86,8 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
+  facebookAuth: async (req, res, next) => {},
+  googleAuth: async (req, res, next) => {},
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
