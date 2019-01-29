@@ -4,7 +4,12 @@
   "description": "perform basic functions common to MERN applications",
   "main": "./server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startdevserver": "cross-env NODE_ENV=dev nodemon server/index.js",
+    "startprodserver": "cross-env NODE_ENV=prod nodemon server/index.js",
+    "startdevclient": " cross-env NODE_ENV=dev nodemon npm start --prefix client",
+    "startprodclient": "cross-env NODE_ENV=prod nodemon npm start --prefix client",
+    "startalldev": "concurrently \"npm run startdevserver\" \"npm run startdevclient\""
   },
   "repository": {
     "type": "git",
