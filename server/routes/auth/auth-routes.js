@@ -1,11 +1,11 @@
 app.get(
-  "/auth/google",
+  "/google",
   passport.authenticate("facebookToken", { session: false }),
   UsersController.facebookAuth
 );
 
 app.get(
-  "/auth/google/callback",
+  "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/login"
   }),
