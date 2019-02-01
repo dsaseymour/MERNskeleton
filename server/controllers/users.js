@@ -5,9 +5,28 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../../models/User");
-const UsersController = require("../../controllers/users");
 const { check, validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
+
+
+signToken = userJWTPayload => {
+  return JWT.sign(
+    userJWTPayload ,
+    process.env.JWT_SECRET,
+    { expiresIn: 3600 },
+    (err, token) => {
+      if(err){console.log(err);}
+      res.json(
+        {
+          success: true,
+          token: 'Bearer ' + token
+        }
+        );
+    }
+    );
+}
+
+
 
 module.exports = {
   getCurrentUser: async (req, res, next) => {
@@ -44,7 +63,7 @@ module.exports = {
       });
     });
   },
-  loginUser: async (req, res, next) => {
+  localLogin: async (req, res, next) => {
     const errors = validationResult(req);
     if (!isEmpty(errors)) {
       return res.status(422).json({
@@ -69,25 +88,37 @@ module.exports = {
     );
 
     if (passwordMatch) {
-      const userJWTPayload = { id: user.id, name: user.name };
-      jwt.sign(
-        userJWTPayload,
-        process.env.JWT_SECRET,
-        { expiresIn: 3600 },
-        (err, token) => {
-          res.json({
-            success: true,
-            token: "Bearer " + token
-          });
-        }
-      );
+      const token = signToken(req.user);
+      res.status(200).json(
+        token
+        );
     } else {
       errors.password = "Password incorrect";
       return res.status(400).json(errors);
     }
   },
-  facebookAuth: async (req, res, next) => {},
-  googleAuth: async (req, res, next) => {},
+  facebookAuth: async (req, res, next) => {
+    const token = signToken(req.user);
+    res.status(200).json(
+      {
+        token
+      }
+      );
+
+
+
+  },
+  googleAuth: async (req, res, next) => {
+
+    const token = signToken(req.user);
+    res.status(200).json(
+      {
+        token
+      }
+      );
+
+
+  },
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });

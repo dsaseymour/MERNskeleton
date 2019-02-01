@@ -1,14 +1,7 @@
-const express = require("express");
 const router = require("express-promise-router")();
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const User = require("../../models/User");
 const UsersController = require("../../controllers/users");
-const { check, validationResult } = require("express-validator/check");
-const isEmpty = require("is-empty");
-const PassportJwtConf = require("../../config/passport_jwtstrategy");
+const { check } = require("express-validator/check");
 
 /* //==========================================================================================================//GET  ROUTES BEGIN 
 //=======================================================================================================*/
@@ -50,7 +43,7 @@ router.post(
 //@router POST api/users/login
 // @desc User Login
 //@access Public
-router.post("/login", [], UsersController.loginUser);
+router.post("/login", [], UsersController.localLogin);
 /* //========================================================================================================================
 //POST ROUTES END 
 //========================================================================================================================*/
@@ -70,5 +63,4 @@ router.delete(
 /* //========================================================================================================================
 //DELETE ROUTES END 
 //========================================================================================================================*/
-
 module.exports = router;
