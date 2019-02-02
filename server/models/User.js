@@ -33,6 +33,18 @@ const userSchema = new Schema(
         type: String,
         lowercase: true
       }
+    },
+    displayName: {
+      type: String
+    },
+    familyName: {
+      type: String
+    },
+    givenName: {
+      type: String
+    },
+    photo: {
+      type: String
     }
   },
   {

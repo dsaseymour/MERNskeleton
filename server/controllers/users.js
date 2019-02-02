@@ -72,9 +72,7 @@ module.exports = {
     }
 
     const email = req.body.email;
-
     const plaintextpassword = req.body.password;
-
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
@@ -109,7 +107,6 @@ module.exports = {
 
   },
   googleAuth: async (req, res, next) => {
-
     const token = signToken(req.user);
     res.status(200).json(
       {

@@ -43,7 +43,18 @@ router.post(
 //@router POST api/users/login
 // @desc User Login
 //@access Public
-router.post("/login", [], UsersController.localLogin);
+router.post(
+  "/login",
+  [
+    check("username")
+      .isEmail()
+      .withMessage("Must provide username"),
+    check("password")
+      .exists()
+      .withMessage("Must enter password")
+  ],
+  UsersController.localLogin
+);
 /* //========================================================================================================================
 //POST ROUTES END 
 //========================================================================================================================*/
