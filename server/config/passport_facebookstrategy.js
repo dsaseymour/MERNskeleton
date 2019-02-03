@@ -1,4 +1,4 @@
-const FacebookTokenStrategy = require("passport-facebook-token").Strategy;
+const FacebookTokenStrategy = require("passport-facebook-token");
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
 const foundOtherAccount = require("./searchForEmail");
@@ -13,6 +13,10 @@ module.exports = passport => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
+          console.log("profile", profile);
+          console.log("accessToken", accessToken);
+          console.log("refreshToken", refreshToken);
+
           const foundUser = await User.findOne({ "facebook.id": profile.id });
           if (foundUser) {
             return done(null, foundUser);

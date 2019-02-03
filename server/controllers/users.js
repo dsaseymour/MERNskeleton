@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../models/User");
-const { check, validationResult } = require("express-validator/check");
+const { validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
 
 signToken = userJWTPayload => {

@@ -21,6 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(passport.initialize());
+require("./config/passport_facebookstrategy")(passport);
+require("./config/passport_googlestrategy")(passport);
+require("./config/passport_jwtstrategy")(passport);
 
 app.use("/api/users", userRoutes);
 app.use("/api/profile", profileRoutes);
