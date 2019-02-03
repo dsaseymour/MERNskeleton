@@ -29,14 +29,28 @@ router.get(
 router.post(
   "/register",
   [
-    check("name", "Name must be provided").isEmpty(),
-    check("username").isEmail(),
-    check("password", "Password must be at least 5 characters long ").isLength({
-      min: 5
-    }),
-    check("confirmPassword", "Password and confirm Password must match").equals(
-      "password"
-    )
+    check("username")
+      .not()
+      .isEmpty()
+      .withMessage("Must provide username")
+      .isEmail()
+      .withMessage("Username must be an email address"),
+    check("name")
+      .not()
+      .isEmpty()
+      .withMessage("Name must be provided"),
+    check("password")
+      .not()
+      .isEmpty()
+      .withMessage("Password must be provided")
+      .isLength({
+        min: 5
+      })
+      .withMessage("Password must be at least 5 characters long"),
+    check("confirmPassword")
+      .not()
+      .isEmpty()
+      .withMessage("confirmation Password must be provided")
   ],
   UsersController.registerUser
 );
@@ -48,10 +62,14 @@ router.post(
   "/login",
   [
     check("username")
+      .not()
+      .isEmpty()
+      .withMessage("Must provide username")
       .isEmail()
-      .withMessage("Must provide username"),
+      .withMessage("Username must be an email address"),
     check("password")
-      .exists()
+      .not()
+      .isEmpty()
       .withMessage("Must enter password")
   ],
   UsersController.localLogin

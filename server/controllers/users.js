@@ -7,6 +7,7 @@ const User = require("../models/User");
 const { validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
 
+//
 signToken = userJWTPayload => {
   return JWT.sign(
     userJWTPayload,
@@ -24,6 +25,11 @@ signToken = userJWTPayload => {
   );
 };
 
+//express validator error formatter
+const errorFormatter = ({ location, msg, param }) => {
+  return `${location}[${param}]: ${msg}`;
+};
+
 module.exports = {
   getCurrentUser: async (req, res, next) => {
     res.json({
@@ -33,37 +39,48 @@ module.exports = {
     });
   },
   registerUser: async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!isEmpty(errors)) {
+    const errors = {};
+    //validation error reporting
+    const result = validationResult(req).formatWith(errorFormatter);
+    if (!result.isEmpty()) {
       return res.status(422).json({
-        errors: errors.array()
+        err: result.array()
       });
     }
+    //does the user email already exist
     const foundUser = await User.findOne({ email: req.body.email });
     if (foundUser) {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
     }
+    //user email does not already exist, create user
     const newUser = new User({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password
     });
+    //generate password hash
 
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) throw err;
+        //        if (err) throw err;
         newUser.password = hash;
         newUser.save();
-        res.json(newUser);
+        return res.status(200).json({
+          status: "Success",
+          operation: "User Registration",
+          newUser
+        });
       });
     });
+    //user has been created
   },
   localLogin: async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!isEmpty(errors)) {
+    const errors = {};
+    const result = validationResult(req).formatWith(errorFormatter);
+    if (!result.isEmpty()) {
       return res.status(422).json({
-        errors: errors.array()
+        err: result.array()
       });
     }
 
