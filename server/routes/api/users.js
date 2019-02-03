@@ -33,8 +33,8 @@ router.post(
     check("password", "Password must be at least 5 characters long ").isLength({
       min: 5
     }),
-    check("password", "Password and confirm Password must match").equals(
-      req.body.confirmPassword
+    check("confirmPassword", "Password and confirm Password must match").equals(
+      "password"
     )
   ],
   UsersController.registerUser

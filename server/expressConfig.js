@@ -12,7 +12,7 @@ const profileRoutes = require("./routes/api/profile");
 const authRoutes = require("./routes/auth/auth-routes");
 
 mongoose
-  .connect(db)
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -27,4 +27,4 @@ app.use("/api/profile", profileRoutes);
 app.use("/auth", authRoutes);
 /* Express configuration ends*/
 
-export default app;
+module.exports = app;

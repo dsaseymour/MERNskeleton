@@ -1,10 +1,9 @@
 const express = require("express");
 const router = require("express-promise-router")();
-const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
-const Profile = require("../../models/Profile");
-const User = require("../../models/User");
+const Profile = require("../models/Profile");
+const User = require("../models/User");
 
 module.exports = {
   getCurrentUser: async (req, res, next) => {},

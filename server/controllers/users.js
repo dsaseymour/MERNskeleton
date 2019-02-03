@@ -4,29 +4,26 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const User = require("../../models/User");
+const User = require("../models/User");
 const { check, validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
 
-
 signToken = userJWTPayload => {
   return JWT.sign(
-    userJWTPayload ,
+    userJWTPayload,
     process.env.JWT_SECRET,
     { expiresIn: 3600 },
     (err, token) => {
-      if(err){console.log(err);}
-      res.json(
-        {
-          success: true,
-          token: 'Bearer ' + token
-        }
-        );
+      if (err) {
+        console.log(err);
+      }
+      res.json({
+        success: true,
+        token: "Bearer " + token
+      });
     }
-    );
-}
-
-
+  );
+};
 
 module.exports = {
   getCurrentUser: async (req, res, next) => {
@@ -58,7 +55,7 @@ module.exports = {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
-        await newUser.save();
+        newUser.save();
         res.json(newUser);
       });
     });
@@ -87,34 +84,23 @@ module.exports = {
 
     if (passwordMatch) {
       const token = signToken(req.user);
-      res.status(200).json(
-        token
-        );
+      res.status(200).json(token);
     } else {
       errors.password = "Password incorrect";
       return res.status(400).json(errors);
     }
   },
   facebookAuth: async (req, res, next) => {
-    const token = signToken(req.user);
-    res.status(200).json(
-      {
-        token
-      }
-      );
-
-
-
+    const token = signToken(req.user.id);
+    res.status(200).json({
+      token
+    });
   },
   googleAuth: async (req, res, next) => {
-    const token = signToken(req.user);
-    res.status(200).json(
-      {
-        token
-      }
-      );
-
-
+    const token = signToken(req.user.id);
+    res.status(200).json({
+      token
+    });
   },
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
