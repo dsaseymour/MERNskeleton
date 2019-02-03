@@ -1,7 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const router = require("express-promise-router")();
 const passport = require("passport");
 const ProfileController = require("../../controllers/profile");
+
 /* //==========================================================================================================//GET  ROUTES BEGIN 
 //=======================================================================================================*/
 router.get(

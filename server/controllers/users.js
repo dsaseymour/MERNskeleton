@@ -1,5 +1,4 @@
 const express = require("express");
-const router = require("express-promise-router")();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");

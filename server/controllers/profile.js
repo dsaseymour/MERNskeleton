@@ -1,15 +1,26 @@
 const express = require("express");
-const router = require("express-promise-router")();
 const mongoose = require("mongoose");
 const passport = require("passport");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 
 module.exports = {
-  getCurrentUser: async (req, res, next) => {},
-  getProfileByHandle: async (req, res, next) => {},
-  getProfileByUserID: async (req, res, next) => {},
-  getAllProfiles: async (req, res, next) => {},
-  createUserProfile: async (req, res, next) => {},
-  deleteUserandProfile: async (req, res, next) => {}
+  getCurrentUser: async (req, res, next) => {
+    res.json("getCurrentUser");
+  },
+  getProfileByHandle: async (req, res, next) => {
+    res.json("getProfileByHandle");
+  },
+  getProfileByUserID: async (req, res, next) => {
+    res.json("getProfileByUserID");
+  },
+  getAllProfiles: async (req, res, next) => {
+    res.json("getAllProfiles");
+  },
+  createUserProfile: async (req, res, next) => {
+    res.json("createUserProfile");
+  },
+  deleteUserandProfile: async (req, res, next) => {
+    res.json("deleteUserandProfile");
+  }
 };
