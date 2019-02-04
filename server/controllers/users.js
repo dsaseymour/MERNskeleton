@@ -7,24 +7,6 @@ const User = require("../models/User");
 const { validationResult } = require("express-validator/check");
 const isEmpty = require("is-empty");
 
-//
-signToken = userJWTPayload => {
-  return jwt.sign(
-    userJWTPayload,
-    process.env.JWT_SECRET,
-    { expiresIn: 3600 },
-    (err, token) => {
-      if (err) {
-        console.log(err);
-      }
-      res.json({
-        success: true,
-        token: "Bearer " + token
-      });
-    }
-  );
-};
-
 //express validator error formatter
 const errorFormatter = ({ location, msg, param }) => {
   return `${location}[${param}]: ${msg}`;
@@ -48,7 +30,7 @@ module.exports = {
       });
     }
     //does the user email already exist
-    const foundUser = await User.findOne({ email: req.body.email });
+    const foundUser = await User.findOne({ "local.email": req.body.username });
     if (foundUser) {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
@@ -57,7 +39,7 @@ module.exports = {
     const newUser = new User({
       method: "local",
       local: {
-        email: req.body.email,
+        email: req.body.username,
         passwordHash: req.body.password
       },
       displayName: req.body.name
@@ -86,11 +68,9 @@ module.exports = {
         err: result.array()
       });
     }
-
-    const email = req.body.email;
+    const email = req.body.username;
     const plaintextpassword = req.body.password;
-    const foundUser = await User.findOne({ email });
-
+    const foundUser = await User.findOne({ "local.email": email });
     if (!foundUser) {
       errors.email = "User not found";
       return res.status(404).json(errors);
@@ -102,24 +82,53 @@ module.exports = {
     );
 
     if (passwordMatch) {
-      const token = signToken(req.user);
-      res.status(200).json(token);
+      const userJWTPayload = { userid: foundUser._id };
+      jwt.sign(
+        userJWTPayload,
+        process.env.JWT_SECRET,
+        { expiresIn: 3600 },
+        (err, token) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).json({ token: "Bearer " + token });
+          }
+        }
+      );
     } else {
       errors.password = "Password incorrect";
       return res.status(400).json(errors);
     }
   },
   facebookAuth: async (req, res, next) => {
-    const token = signToken(req.user.id);
-    res.status(200).json({
-      token
-    });
+    const userJWTPayload = { userid: req.user.id };
+    jwt.sign(
+      userJWTPayload,
+      process.env.JWT_SECRET,
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).json({ token: "Bearer " + token });
+        }
+      }
+    );
   },
   googleAuth: async (req, res, next) => {
-    const token = signToken(req.user.id);
-    res.status(200).json({
-      token
-    });
+    const userJWTPayload = { userid: req.user.id };
+    jwt.sign(
+      userJWTPayload,
+      process.env.JWT_SECRET,
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).json({ token: "Bearer " + token });
+        }
+      }
+    );
   },
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
