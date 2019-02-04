@@ -1,6 +1,5 @@
 const FacebookTokenStrategy = require("passport-facebook-token");
-const mongoose = require("mongoose");
-const User = mongoose.model("users");
+const User = require("../models/User");
 const foundOtherAccount = require("./searchForEmail");
 
 module.exports = passport => {
@@ -14,19 +13,11 @@ module.exports = passport => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           console.log("profile", profile);
-          console.log("accessToken", accessToken);
-          console.log("refreshToken", refreshToken);
-
           const foundUser = await User.findOne({ "facebook.id": profile.id });
           if (foundUser) {
-            return done(null, foundUser);
+            return done(foundUser);
           }
-          foundOtherAccount(profile); //does this user have an account that was created via another login method
-          if (foundOtherAccount) {
-            return done(null, false, {
-              message: "An account already exists for your specified email"
-            });
-          }
+
           const createNewUser = new User({
             method: "facebook",
             facebook: {
@@ -34,13 +25,22 @@ module.exports = passport => {
               email: profile.emails[0].value
             },
             displayName: profile.displayName,
-            familyName: profile.Name.familyName,
-            givenName: profile.Name.givenName,
-            photo: profile.photos[0].value
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName
           });
 
-          await createNewUser.save();
-          done(null, createNewUser);
+          createNewUser
+            .save()
+            .then(user => {
+              //              res.json(user);
+              return done(null, user);
+            })
+            .catch(err => console.log(err));
+          /*
+                    await createNewUser.save()
+
+          ;
+*/
         } catch (error) {
           done(error, false, error.message);
         }

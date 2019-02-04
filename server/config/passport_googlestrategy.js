@@ -1,6 +1,5 @@
 const GooglePlusTokenStrategy = require("passport-google-plus-token");
-const mongoose = require("mongoose");
-const User = mongoose.model("users");
+const User = require("../models/User");
 const foundOtherAccount = require("./searchForEmail");
 
 module.exports = passport => {
@@ -21,12 +20,14 @@ module.exports = passport => {
           if (foundUser) {
             return done(null, foundUser);
           }
+
+          /*
           foundOtherAccount(profile); //does this user have an account that was created via another login method
           if (foundOtherAccount) {
             return done(null, false, {
               message: "An account already exists for your specified email"
             });
-          }
+          }*/
           const createNewUser = new User({
             method: "google",
             google: {
@@ -35,11 +36,10 @@ module.exports = passport => {
             },
             displayName: profile.displayName,
             familyName: profile.Name.familyName,
-            givenName: profile.Name.givenName,
-            photo: profile.photos[0].value
+            givenName: profile.Name.givenName
           });
 
-          await createNewUser.save();
+          createNewUser.save();
           done(null, createNewUser);
         } catch (error) {
           done(error, false, error.message);

@@ -91,7 +91,7 @@ module.exports = {
           if (err) {
             console.log(err);
           } else {
-            res.status(200).json({ token: "Bearer " + token });
+            res.status(200).json({ token: "Bearer " + token }); //send token to client
           }
         }
       );
@@ -101,7 +101,7 @@ module.exports = {
     }
   },
   facebookAuth: async (req, res, next) => {
-    const userJWTPayload = { userid: req.user.id };
+    const userJWTPayload = { userid: req._id };
     jwt.sign(
       userJWTPayload,
       process.env.JWT_SECRET,
@@ -110,13 +110,13 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          res.status(200).json({ token: "Bearer " + token });
+          res.status(200).json({ token: "Bearer " + token }); //send token to client
         }
       }
     );
   },
   googleAuth: async (req, res, next) => {
-    const userJWTPayload = { userid: req.user.id };
+    const userJWTPayload = { userid: req._id };
     jwt.sign(
       userJWTPayload,
       process.env.JWT_SECRET,
@@ -125,7 +125,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          res.status(200).json({ token: "Bearer " + token });
+          res.status(200).json({ token: "Bearer " + token }); //send token to client
         }
       }
     );
