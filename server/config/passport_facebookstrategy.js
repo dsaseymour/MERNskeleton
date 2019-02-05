@@ -13,11 +13,15 @@ module.exports = passport => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           console.log("profile", profile);
+          //preventing duplicate accounts begins
+          //use facebook id to search for existing account of this user
+          //if we find the user return them
           const foundUser = await User.findOne({ "facebook.id": profile.id });
           if (foundUser) {
-            return done(foundUser);
+            return done(null, foundUser);
           }
 
+          //preventing duplicate accounts ends
           const createNewUser = new User({
             method: "facebook",
             facebook: {
@@ -32,15 +36,9 @@ module.exports = passport => {
           createNewUser
             .save()
             .then(user => {
-              //              res.json(user);
-              return done(null, user);
+              return done(user);
             })
             .catch(err => console.log(err));
-          /*
-                    await createNewUser.save()
-
-          ;
-*/
         } catch (error) {
           done(error, false, error.message);
         }

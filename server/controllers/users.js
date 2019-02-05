@@ -100,7 +100,8 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
-  facebookAuth: async (req, res, next) => {
+  facebookAuth: (req, res, next) => {
+    console.log(req);
     const userJWTPayload = { userid: req._id };
     jwt.sign(
       userJWTPayload,
