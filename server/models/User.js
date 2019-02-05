@@ -42,6 +42,10 @@ const userSchema = new Schema(
     },
     givenName: {
       type: String
+    },
+    admin: {
+      type: Boolean,
+      default: false
     }
   },
   {
