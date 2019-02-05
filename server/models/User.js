@@ -42,9 +42,6 @@ const userSchema = new Schema(
     },
     givenName: {
       type: String
-    },
-    photo: {
-      type: String
     }
   },
   {
