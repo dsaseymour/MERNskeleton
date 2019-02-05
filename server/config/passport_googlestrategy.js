@@ -8,26 +8,15 @@ module.exports = passport => {
     new GooglePlusTokenStrategy(
       {
         clientID: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET
+        clientSecret: process.env.GOOGLE_SECRET,
+        passReqToCallback: true
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (req, accessToken, refreshToken, profile, done) => {
         try {
-          console.log("profile", profile);
-          console.log("accessToken", accessToken);
-          console.log("refreshToken", refreshToken);
-
           const foundUser = await User.findOne({ "google.id": profile.id });
           if (foundUser) {
-            return done(null, foundUser);
+            return done({ req: req, foundUser: foundUser });
           }
-
-          /*
-          foundOtherAccount(profile); //does this user have an account that was created via another login method
-          if (foundOtherAccount) {
-            return done(null, false, {
-              message: "An account already exists for your specified email"
-            });
-          }*/
           const createNewUser = new User({
             method: "google",
             google: {
@@ -35,12 +24,16 @@ module.exports = passport => {
               email: profile.emails[0].value
             },
             displayName: profile.displayName,
-            familyName: profile.Name.familyName,
-            givenName: profile.Name.givenName
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName
           });
 
-          createNewUser.save();
-          done(null, createNewUser);
+          createNewUser
+            .save()
+            .then(user => {
+              return done({ req: req, foundUser: user });
+            })
+            .catch(err => console.log(err));
         } catch (error) {
           done(error, false, error.message);
         }
@@ -48,3 +41,11 @@ module.exports = passport => {
     )
   );
 };
+
+/*
+          foundOtherAccount(profile); //does this user have an account that was created via another login method
+          if (foundOtherAccount) {
+            return done(null, false, {
+              message: "An account already exists for your specified email"
+            });
+          }*/

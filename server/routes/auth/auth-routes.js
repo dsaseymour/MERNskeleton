@@ -24,7 +24,7 @@ router.post(
 // @desc
 //@access
 router.post(
-  "/google/",
+  "/google",
   passport.authenticate(
     "googleToken",
     {

@@ -8,17 +8,17 @@ module.exports = passport => {
     new FacebookTokenStrategy(
       {
         clientID: process.env.FB_ID,
-        clientSecret: process.env.FB_SECRET
+        clientSecret: process.env.FB_SECRET,
+        passReqToCallback: true
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (req, accessToken, refreshToken, profile, done) => {
         try {
-          console.log("profile", profile);
           //preventing duplicate accounts begins
           //use facebook id to search for existing account of this user
           //if we find the user return them
           const foundUser = await User.findOne({ "facebook.id": profile.id });
           if (foundUser) {
-            return done(null, foundUser);
+            return done({ req: req, foundUser: foundUser });
           }
 
           //preventing duplicate accounts ends
@@ -36,7 +36,7 @@ module.exports = passport => {
           createNewUser
             .save()
             .then(user => {
-              return done(user);
+              return done({ req: req, foundUser: user });
             })
             .catch(err => console.log(err));
         } catch (error) {

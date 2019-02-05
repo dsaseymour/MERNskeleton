@@ -100,36 +100,23 @@ module.exports = {
       return res.status(400).json(errors);
     }
   },
-  facebookAuth: (req, res, next) => {
-    console.log(req);
-    const userJWTPayload = { userid: req._id };
-    jwt.sign(
-      userJWTPayload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.status(200).json({ token: "Bearer " + token }); //send token to client
-        }
-      }
-    );
+  facebookAuth: async (req, res, next) => {
+    const receivedUser = req.foundUser._id;
+    const response = req.req.res;
+    const userJWTPayload = { userid: receivedUser };
+    const token = jwt.sign(userJWTPayload, process.env.JWT_SECRET, {
+      expiresIn: 3600
+    });
+    response.status(200).json({ token: "Bearer " + token });
   },
   googleAuth: async (req, res, next) => {
-    const userJWTPayload = { userid: req._id };
-    jwt.sign(
-      userJWTPayload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.status(200).json({ token: "Bearer " + token }); //send token to client
-        }
-      }
-    );
+    const receivedUser = req.foundUser._id;
+    const response = req.req.res;
+    const userJWTPayload = { userid: receivedUser };
+    const token = jwt.sign(userJWTPayload, process.env.JWT_SECRET, {
+      expiresIn: 3600
+    });
+    response.status(200).json({ token: "Bearer " + token });
   },
   deleteUser: async (req, res, next) => {
     await Profile.findOneAndRemove({ user: req.user.id });
