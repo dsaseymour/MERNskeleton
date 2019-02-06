@@ -1,17 +1,35 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import { AUTH_ERROR } from "./types";
 
 import setAuthToken from "../utils/setAuthToken";
 
-export const registerUser = (userData, history) => {};
+//Dispatch Calls -----------------------------
 
-export const loginUser = userData => dispatch => {};
+export const registerUser = (userData, history) => {
+  return async dispatch => {
+    try {
+    } catch (err) {}
+  };
+};
 
-export const logoutUser = () => dispatch => {};
+export const loginUser = userData => {
+  return async dispatch => {
+    try {
+    } catch (err) {}
+  };
+};
 
+export const logoutUser = () => {
+  return async dispatch => {
+    try {
+    } catch (err) {}
+  };
+};
+//Action Creator -----------------------------
 export const setCurrentUser = decoded => {
   return {
-    type: SETCURRENTUSER,
+    type: SET_CURRENT_USER,
     payload: decoded
   };
 };

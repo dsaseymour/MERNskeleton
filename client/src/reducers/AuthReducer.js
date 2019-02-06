@@ -1,7 +1,10 @@
 import isEmpty from "is-empty";
 
-import { SETCURRENTUSER } from "../actions/types";
+import { SET_CURRENT_USER } from "../actions/types";
 
+/*
+if payload is empty then we are not authenticated
+ */
 const initialState = {
   isAuthenticated: false,
   user: {}
@@ -9,7 +12,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SETCURRENTUSER:
+    case SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
