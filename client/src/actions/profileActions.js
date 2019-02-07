@@ -9,45 +9,123 @@ import {
   PROFILE_ERROR
 } from "./types";
 //Dispatch Calls -----------------------------
+
+/*
+set loading state before retrieving the profile 
+if we find a profile the payload contain the profile data 
+
+if an error is thrown we still call get profile with no object so that we set our loading state to false 
+ */
 export const getCurrentProfile = () => {
   return async dispatch => {
     try {
-      const receivedProfile = await get("/api/profile");
+      dispatch(setProfileLoading());
+      const getProfileResponse = await axios.get("/api/profile");
       dispatch({
         type: GET_PROFILE,
-        payload: receivedProfile.data
+        payload: getProfileResponse.data
       });
     } catch (err) {
       //if the user doesn't have a profile there is no error
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      });
     }
   };
 };
 
+/*
+a request to visit some user's profile overview 
+associated Component ProfileOverview
+associated path /:handle/profileoverview
+*/
 export const getProfileByHandle = handle => {
   return async dispatch => {
     try {
-    } catch (err) {}
+      dispatch(setProfileLoading());
+      const getProfileHandleResponse = await axios.get(
+        "/api/profile/handle/${handle}"
+      );
+      dispatch({
+        type: GET_PROFILE,
+        payload: getProfileHandleResponse.data
+      });
+    } catch (err) {
+      dispatch({
+        type: GET_PROFILE,
+        payload: null
+      });
+    }
   };
 };
 
-export const createProfile = (profileData, history) => {
+export const editProfileBasic = (profileData, history) => {
   return async dispatch => {
     try {
-    } catch (err) {}
+      const editProfileBasicResponse = await axios.post(
+        "/api/profile/handle/${handle}/edit-basic",
+        profileData
+      );
+      history.push("/MyProfileOverview");
+    } catch (err) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    }
+  };
+};
+
+export const editProfileBio = (profileData, history) => {
+  return async dispatch => {
+    try {
+      const editProfileBioResponse = await axios.post(
+        "/api/profile/handle/${handle}/edit-bio",
+        profileData
+      );
+      history.push("/MyProfileOverview");
+    } catch (err) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    }
+  };
+};
+
+export const editProfileSocial = (profileData, history) => {
+  return async dispatch => {
+    try {
+      const editProfileSocialResponse = await axios.post(
+        "/api/profile/handle/${handle}/edit-social",
+        profileData
+      );
+      history.push("/MyProfileOverview");
+    } catch (err) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    }
   };
 };
 
 export const getProfiles = () => {
   return async dispatch => {
     try {
-    } catch (err) {}
-  };
-};
-
-export const deleteAccount = () => {
-  return async dispatch => {
-    try {
-    } catch (err) {}
+      dispatch(setProfileLoading());
+      const editProfilesResponse = await axios.get("/api/profile/all");
+      dispatch({
+        type: GET_PROFILES,
+        payload: editProfilesResponse.data
+      });
+    } catch (err) {
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      });
+    }
   };
 };
 

@@ -17,8 +17,14 @@ module.exports = {
   getAllProfiles: async (req, res, next) => {
     res.json("getAllProfiles");
   },
-  createUserProfile: async (req, res, next) => {
-    res.json("createUserProfile");
+  editProfileBasic: async (req, res, next) => {
+    res.json("editProfileBasic");
+  },
+  editProfileBio: async (req, res, next) => {
+    res.json("editProfileBio");
+  },
+  editProfileSocial: async (req, res, next) => {
+    res.json("editProfileSocial");
   },
   deleteUserandProfile: async (req, res, next) => {
     res.json("deleteUserandProfile");

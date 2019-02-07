@@ -14,7 +14,7 @@ router.get(
 );
 
 router.get(
-  "handle/:handle",
+  "/handle/:handle",
 
   ProfileController.getProfileByHandle
 );
@@ -40,11 +40,27 @@ router.get(
 //========================================================================================================================*/
 
 router.post(
-  "/",
+  "/handle/:handle/edit-basic",
   passport.authenticate("jwt", {
     session: false
   }),
-  ProfileController.createUserProfile
+  ProfileController.editProfileBasic
+);
+
+router.post(
+  "/handle/:handle/edit-bio",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  ProfileController.editProfileBio
+);
+
+router.post(
+  "/handle/:handle/edit-social",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  ProfileController.editProfileSocial
 );
 
 /* //========================================================================================================================

@@ -81,7 +81,7 @@ router.post(
 //DELETE  ROUTES BEGIN 
 //========================================================================================================================*/
 //@router DELETE api/user/
-// @desc delete user
+// @desc delete user account
 //@access Private
 router.delete(
   "/",
