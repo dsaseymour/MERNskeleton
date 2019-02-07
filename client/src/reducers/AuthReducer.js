@@ -10,6 +10,12 @@ const initialState = {
   user: {}
 };
 
+/*
+Set current user,
+if the payload is empty then we didn't send a payload containing the user data. 
+If the payload is not then that payload contains the user data 
+*/
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
