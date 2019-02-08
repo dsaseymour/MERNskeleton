@@ -5,19 +5,19 @@ const ProfileController = require("../../controllers/profile");
 
 /* //==========================================================================================================//GET  ROUTES BEGIN 
 //=======================================================================================================*/
+/*
+Get Your Current Profile
+To get your current profile you must be logged in 
+*/
 router.get(
   "/",
   passport.authenticate("jwt", {
     session: false
   }),
-  ProfileController.getCurrentUser
+  ProfileController.getCurrentProfile
 );
 
-router.get(
-  "/handle/:handle",
-
-  ProfileController.getProfileByHandle
-);
+router.get("/handle/:handle", ProfileController.getProfileByHandle);
 
 router.get(
   "/user/:user_id",
