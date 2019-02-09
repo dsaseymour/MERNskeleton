@@ -5,18 +5,43 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      errors: {}
+    };
+  }
+
   static propTypes = {
     prop: PropTypes
   };
 
   async responseGoogle(res) {
     await this.props.authGoogle(res.accessToken);
-    this.props.history.push("/dashboard");
+    this.props.history.push("/userdashboard");
   }
 
   async responseFacebook(res) {
     await this.props.authFacebook(res.accessToken);
-    this.props.history.push("/dashboard");
+    this.props.history.push("/userdashboard");
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/userdashboard");
+    }
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/userdashboard");
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   render() {
