@@ -8,22 +8,25 @@ module.exports = {
   getCurrentProfile: async (req, res, next) => {
     console.log(req);
     const foundMyProfile = await Profile.findOne({ user: req.user._id });
-
+    if (!foundMyProfile) {
+      errors.noprofile = "There is no profile for this user";
+      return res.status(404).json(errors);
+    }
+    foundMyProfile.populate("user");
     res.json(foundMyProfile);
   },
   getProfileByHandle: async (req, res, next) => {
     const errors = {};
-    const foundRequestUser = await Profile.findOne({
+    const foundRequestedUser = await Profile.findOne({
       handle: req.params.handle
     });
-    if (!foundRequestUser) {
+    if (!foundRequestedUser) {
       errors.noprofile = "There is no profile for this user";
       res.status(404).json(errors);
     }
+    foundRequestedUser.populate("user", [displayName]);
     res.json(profile);
   },
-  getProfileByUserID: async (req, res, next) => {},
-  getAllProfiles: async (req, res, next) => {},
   editProfileBasic: async (req, res, next) => {
     const errors = {};
     //validation error reporting

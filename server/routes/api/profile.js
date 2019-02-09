@@ -21,18 +21,6 @@ router.get(
 
 router.get("/handle/:handle", ProfileController.getProfileByHandle);
 
-router.get(
-  "/user/:user_id",
-
-  ProfileController.getProfileByUserID
-);
-
-router.get(
-  "/all",
-
-  ProfileController.getAllProfiles
-);
-
 /* //========================================================================================================================
 //GET  ROUTES END 
 //========================================================================================================================*/
