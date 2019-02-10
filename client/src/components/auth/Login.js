@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Formik, FormikProps, Form, Field } from "formik";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 
 class Login extends Component {
   constructor() {
@@ -28,6 +30,28 @@ class Login extends Component {
     this.props.history.push("/userdashboard");
   }
 
+  LoginForm(props) {
+    const { isSubmitting, errors, handleChange, handleSubmit } = props;
+    return (
+      <Form>
+        <label className="form-field" htmlFor="email">
+          <span>E-mail:</span>
+
+          <input name="email" type="email" onChange={handleChange} />
+        </label>
+        <div className="form-field-error">{errors.email}</div>
+        <label className="form-field" htmlFor="password">
+          <span>Password:</span>
+          <input name="password" type="password" onChange={handleChange} />
+        </label>
+        <div className="form-field-error">{errors.password}</div>
+        <button onClick={handleSubmit}>
+          {isSubmitting ? "Loading" : "Login"}
+        </button>
+      </Form>
+    );
+  }
+
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/userdashboard");
@@ -48,8 +72,33 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        Test<p>ing</p>
+      <div className="container">
+        <Formik
+          initialValues={{
+            email: "",
+            password: ""
+          }}
+          validate={values => {
+            let errors = {};
+            if (!values.email) {
+              errors.email = "Required";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = "Invalid email address";
+            }
+
+            return errors;
+          }}
+          onSubmit={onSubmit}
+          render={LoginForm}
+        />
+
+        <div class="text-center">
+          <button type="button" class="btn btn-primary">
+            Create an Account
+          </button>
+        </div>
       </div>
     );
   }
