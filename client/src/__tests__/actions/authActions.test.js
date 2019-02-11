@@ -18,6 +18,7 @@ import {
   PROFILE_ERROR,
   AUTH_ERROR
 } from "../../actions/types";
+import moxios from "moxios";
 
 describe("registerUser", () => {
   test("performs an axios call", () => {});
@@ -29,4 +30,17 @@ describe("set Current User", () => {
     const action = setCurrentUser();
     expect(action).toEqual({ type: SET_CURRENT_USER, payload: {} });
   });
+});
+
+describe("register user ", () => {
+  beforeEach(() => {
+    //send requests to moxios
+    moxios.install();
+  });
+
+  afterEach(() => {
+    moxios.uninstall();
+  });
+
+  test("     ", () => {});
 });

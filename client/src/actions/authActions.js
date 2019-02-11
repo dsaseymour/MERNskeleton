@@ -103,9 +103,11 @@ export const authFacebook = data => {
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("jwtToken");
-  setAuthToken(false);
-  dispatch(SET_CURRENT_USER({}));
+  return dispatch => {
+    localStorage.removeItem("jwtToken");
+    setAuthToken(false);
+    dispatch(SET_CURRENT_USER({}));
+  };
 };
 //Action Creator -----------------------------
 export const SET_CURRENT_USER = decoded => {

@@ -16,6 +16,7 @@ if we find a profile the payload contain the profile data
 
 if an error is thrown we still call get profile with no object so that we set our loading state to false 
  */
+
 export const getCurrentProfile = () => {
   return async dispatch => {
     try {

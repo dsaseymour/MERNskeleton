@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/logOnly";
 import thunk from "redux-thunk";
-import rootReducer from "./rootreducer";
+import rootReducer from "./reducers/index";
 
 const initialState = {};
 
-const middleware = [thunk];
+//exporting middleware so they can be used in testing
+
+export const middleware = [thunk];
 
 const store = createStore(
   rootReducer,

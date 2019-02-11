@@ -1,9 +1,10 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import checkPropTypes from "check-prop-types";
-
-import rootReducer from "../../rootreducer";
+import rootReducer from "../../reducers/index";
+import { middleware } from "../../store";
 export const storeFactory = initialState => {
-  return createStore(rootReducer, initialState);
+  const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
+  return createStoreWithMiddleware(rootReducer, initialState);
 };
 
 export const checkProps = (component, conformingProps) => {
