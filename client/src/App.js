@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-
+import store from "./store";
 import "./App.css";
 import setAuthToken from "./utils/setAuthToken";
 import logo from "./logo.svg";
@@ -15,7 +15,7 @@ if (localStorage.jwtToken) {
   store.dispatch(setCurrentUser(decodedToken));
   const currentTime = Date.now() / 1000;
   //if the token has expired logout
-  if (decoded.exp < currentTime) {
+  if (decodedToken.exp < currentTime) {
     store.dispatch(logoutUser());
     store.dispatch(clearCurrentProfile());
     window.location.href = "/login";
@@ -24,7 +24,15 @@ if (localStorage.jwtToken) {
 
 class App extends Component {
   render() {
-    return (
+    <Provider store={store}>
+      <Router history={browserHistory} />
+    </Provider>;
+  }
+}
+
+export default App;
+
+/*
       <Provider store={store}>
         <Router history={browserHistory}>
           <div className="App">
@@ -70,12 +78,39 @@ class App extends Component {
               </Switch>
 
               <Switch>
-                <Route
+                <PrivateRoute
                   exact
                   path="/:handle/myprofileoverview"
                   component={MyProfileOverview}
                 />
               </Switch>
+
+      <Switch>
+                <PrivateRoute
+                  exact
+                  path="/:handle/usersettingsaccount"
+                  component={UserSettingsAccount}
+                />
+              </Switch>
+
+        <Switch>
+                <PrivateRoute
+                  exact
+                  path="/:handle/usersettingspassword"
+                  component={UserSettingsPassword}
+                />
+              </Switch>
+
+
+              <Switch>
+                <Route
+                  exact
+                  path="/help"
+                  component={Help}
+                />
+              </Switch>
+
+
 
               <Route exact path="/not-found" component={NotFound} />
             </div>
@@ -84,8 +119,4 @@ class App extends Component {
           </div>
         </Router>
       </Provider>
-    );
-  }
-}
-
-export default App;
+   */

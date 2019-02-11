@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { AUTH_ERROR, GET_ERRORS } from "./types";
+import { SET_CURRENT_USER, AUTH_ERROR, GET_ERRORS } from "./types";
 
 import setAuthToken from "../utils/setAuthToken";
 
@@ -41,7 +41,7 @@ export const loginUser = userData => {
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decodedPayload = jwt_decode(token);
-      dispatch(setCurrentUser(decodedPayload));
+      dispatch(SET_CURRENT_USER(decodedPayload));
     } catch (err) {
       dispatch({
         type: GET_ERRORS,
@@ -67,7 +67,7 @@ export const authGoogle = data => {
       const decodedPayload = jwt_decode(token);
       setAuthToken(token);
       dispatch({
-        type: SETCURRENTUSER,
+        type: SET_CURRENT_USER,
         payload: decodedPayload
       });
     } catch (err) {
@@ -90,7 +90,7 @@ export const authFacebook = data => {
       const decodedPayload = jwt_decode(token);
       setAuthToken(token);
       dispatch({
-        type: SETCURRENTUSER,
+        type: SET_CURRENT_USER,
         payload: decodedPayload
       });
     } catch (err) {
@@ -105,10 +105,10 @@ export const authFacebook = data => {
 export const logoutUser = () => {
   localStorage.removeItem("jwtToken");
   setAuthToken(false);
-  dispatch(setCurrentUser({}));
+  dispatch(SET_CURRENT_USER({}));
 };
 //Action Creator -----------------------------
-export const setCurrentUser = decoded => {
+export const SET_CURRENT_USER = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
