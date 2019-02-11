@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { SET_CURRENT_USER, AUTH_ERROR, GET_ERRORS } from "./types";
+import { SET_CURRENT_USER, AUTH_ERROR, STORE_ERRORS } from "./types";
 
 import setAuthToken from "../utils/setAuthToken";
 
@@ -18,7 +18,7 @@ export const registerUser = (userData, history) => {
       history.push("/login");
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
@@ -26,6 +26,9 @@ export const registerUser = (userData, history) => {
 };
 
 /*
+in our Login.js component we define a form whose 
+onsubmit function sends the userdata entered, to this function 
+user data contains the email and password that the user entered on the form
 send login data to /login endpoint
 server returns token if successful
 store token in local storage
@@ -44,7 +47,7 @@ export const loginUser = userData => {
       dispatch(SET_CURRENT_USER(decodedPayload));
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
@@ -72,7 +75,7 @@ export const authGoogle = data => {
       });
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
@@ -95,7 +98,7 @@ export const authFacebook = data => {
       });
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
