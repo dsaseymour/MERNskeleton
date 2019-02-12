@@ -3,7 +3,7 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="page-footer font-small blue">
-      <a className="navbar-brand" href="#">
+      <Link className="navbar-brand" to="#">
         <img
           src="../public/skull.svg"
           width="30"
@@ -12,13 +12,13 @@ export default function Footer() {
           alt=""
         />
         MernSkeleton
-      </a>
-      <a className="footer-copyright text-center py-3">
+      </Link>
+      <Link className="footer-copyright text-center py-3">
         &copy; {new Date().getFullYear()} Copyright
-      </a>
+      </Link>
 
-      <a>Terms</a>
-      <a>Privacy</a>
+      <Link>Terms</Link>
+      <Link>Privacy</Link>
     </footer>
   );
 }

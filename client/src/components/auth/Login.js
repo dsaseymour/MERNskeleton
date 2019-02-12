@@ -30,28 +30,6 @@ class Login extends Component {
     this.props.history.push("/userdashboard");
   }
 
-  LoginForm(props) {
-    const { isSubmitting, errors, handleChange, handleSubmit } = props;
-    return (
-      <Form>
-        <label className="form-field" htmlFor="email">
-          <span>E-mail:</span>
-
-          <input name="email" type="email" onChange={handleChange} />
-        </label>
-        <div className="form-field-error">{errors.email}</div>
-        <label className="form-field" htmlFor="password">
-          <span>Password:</span>
-          <input name="password" type="password" onChange={handleChange} />
-        </label>
-        <div className="form-field-error">{errors.password}</div>
-        <button onClick={handleSubmit}>
-          {isSubmitting ? "Loading" : "Login"}
-        </button>
-      </Form>
-    );
-  }
-
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/userdashboard");
@@ -75,8 +53,8 @@ class Login extends Component {
       <div className="container">
         <Formik
           initialValues={{
-            email: "",
-            password: ""
+            email: " ",
+            password: " "
           }}
           validate={values => {
             let errors = {};
@@ -87,18 +65,32 @@ class Login extends Component {
             ) {
               errors.email = "Invalid email address";
             }
-
             return errors;
           }}
-          onSubmit={onSubmit}
-          render={LoginForm}
-        />
+          onSubmit={(values, { setSubmitting }) => {
+            this.props.loginUser({
+              email: values.email,
+              password: values.password
+            });
 
-        <div class="text-center">
-          <button type="button" class="btn btn-primary">
-            Create an Account
-          </button>
-        </div>
+            setSubmitting(false);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <Field type="email" name="email" />
+              <ErrorMessage name="email" component="div" />
+
+              <Field type="password" name="password" />
+
+              <ErrorMessage name="password" component="div" />
+
+              <button type="submit" disabled={isSubmitting}>
+                Login
+              </button>
+            </Form>
+          )}
+        </Formik>
       </div>
     );
   }
