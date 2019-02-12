@@ -13,61 +13,124 @@ class Navbar extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
-    const authNav =( <nav class="navbar navbar-expand-lg  navbar-light bg-light">
-    <form class="form-inline my-2 my-lg-0" style="display:inline; margin-right: 40vw ">
-      <a class="navbar-brand" href="./userdashboard.php">
-        <img src="../public/skull.svg" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="" />
-      </a>
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <a class="btn btn-outline-success my-2 my-sm-0" href="./searchresults.php"><i class="fas fa-search"></i></a>
-    </form>
-  
-  
-    <a class="navbar-brand " href="./myprofileoverview.php">
-      <img src="../public/danny.jpg" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="" />
-      Danny Seymour
-    </a>
-    <hr />
-    <a href="./userdashboard.php" class="nav-item nav-link"><i class="fas fa-home"></i></a>
-    <hr />
-    <a href="./discover.php" class="nav-item nav-link"><i class="fas fa-compass"></i></a>
-    <hr />
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="./myprofileoverview.php">Put Display name here <br />
-              @ Put Handle Here
-              <div class="dropdown-divider"></div>
-            </a>
-            <a class="dropdown-item" href="./myprofileoverview.php">Profile</a>
-            <a class="dropdown-item" href="./usersettingsaccount.php">User Settings</a>
-            <a class="dropdown-item" href="./help.php">Help</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="./login.php">Log out</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>);
+    const authNav = (
+      <nav class="navbar navbar-expand-lg  navbar-light bg-light">
+        <Formik>
+          <Form
+            className="form-inline my-2 my-lg-0"
+            style="display:inline; margin-right: 40vw "
+          >
+            <Link className="navbar-brand" to="./userdashboard">
+              <img
+                src="../img/skull.svg"
+                width="30"
+                height="30"
+                className="d-inline-block align-top rounded-circle"
+                alt=""
+              />
+            </Link>
+            <Field
+              className="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <Link
+              className="btn btn-outline-success my-2 my-sm-0"
+              to="./searchresults"
+            >
+              <i className="fas fa-search" />
+            </Link>
+          </Form>
+        </Formik>
 
-    const guestNav =( <nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="./landing.php">
-    <img src="../public/skull.svg" width="30" height="30" class="d-inline-block align-top" alt="" />
-    MernSkeleton
-  </a>
+        <Link className="navbar-brand " to="./myprofileoverview">
+          <img
+            src="../public/danny.jpg"
+            width="30"
+            height="30"
+            className="d-inline-block align-top rounded-circle"
+            alt=""
+          />
+          Danny Seymour
+        </Link>
+        <hr />
+        <Link to="./userdashboard" className="nav-item nav-link">
+          <i className="fas fa-home" />
+        </Link>
+        <hr />
+        <Link to="./discover" className="nav-item nav-link">
+          <i className="fas fa-compass" />
+        </Link>
+        <hr />
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              />
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <Link className="dropdown-item" to="./myprofileoverview">
+                  Put Display name here <br />@ Put Handle Here
+                  <div className="dropdown-divider" />
+                </Link>
+                <Link className="dropdown-item" to="./myprofileoverview">
+                  Profile
+                </Link>
+                <Link className="dropdown-item" to="./usersettingsaccount">
+                  User Settings
+                </Link>
+                <Link className="dropdown-item" to="./help">
+                  Help
+                </Link>
+                <div className="dropdown-divider" />
+                <Link className="dropdown-item" to="./login">
+                  Log out
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
 
-  <a href="./userdashboard.php" class="btn btn-primary">Login</a>
-</nav>);
+    const guestNav = (
+      <nav className="navbar navbar-light bg-light">
+        <Link className="navbar-brand" to="./landing">
+          <img
+            src="../public/skull.svg"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt=""
+          />
+          MernSkeleton
+        </Link>
 
-    return({isAuthenticated ? authNav : guestNav});
+        <Link to="./userdashboard" className="btn btn-primary">
+          Login
+        </Link>
+      </nav>
+    );
+
+    return <div>{isAuthenticated ? authNav : guestNav}</div>;
   }
 }
 
