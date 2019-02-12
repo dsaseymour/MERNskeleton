@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export default class EditProfileSocial extends Component {
+class EditProfileSocial extends Component {
   static propTypes = {
     prop: PropTypes
   };
@@ -10,3 +11,12 @@ export default class EditProfileSocial extends Component {
     return <div />;
   }
 }
+
+EditProfileSocial.propTypes = {};
+
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(EditProfileSocial);

@@ -6,8 +6,21 @@ import setAuthToken from "../utils/setAuthToken";
 
 //Dispatch Calls -----------------------------
 
-//send registration data to /register endpoint
-//user has been created if successful
+/** 
+ * 
+ * @param {userData}  -
+ * @param {history}  -
+ * @return {function} Anonymous function
+ *
+ * and that does the following 
+ * 
+ * 
+ * 
+ * @example
+ *Register.js component
+  onSubmit(){this.props.loginUser(userData,history)}
+ *
+ */
 export const registerUser = (userData, history) => {
   return async dispatch => {
     try {
@@ -44,6 +57,7 @@ export const loginUser = userData => {
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decodedPayload = jwt_decode(token);
+      console.log(decodedPayload);
       dispatch(SET_CURRENT_USER(decodedPayload));
     } catch (err) {
       dispatch({

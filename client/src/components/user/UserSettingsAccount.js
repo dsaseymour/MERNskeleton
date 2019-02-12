@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export default class UserSettings extends Component {
+class UserSettingsAccount extends Component {
   static propTypes = {
     prop: PropTypes
   };
@@ -10,3 +11,12 @@ export default class UserSettings extends Component {
     return <div />;
   }
 }
+
+UserSettingsAccount.propTypes = {};
+
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(UserSettingsAccount);

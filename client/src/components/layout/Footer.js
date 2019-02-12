@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer className="page-footer font-small blue">
       <Link className="navbar-brand" to="#">
@@ -21,4 +21,5 @@ export default function Footer() {
       <Link>Privacy</Link>
     </footer>
   );
-}
+};
+export default Footer;

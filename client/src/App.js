@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-import store from "./store";
-import "./App.css";
-import setAuthToken from "./utils/setAuthToken";
-import logo from "./logo.svg";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
-import { clearCurrentProfile } from "./actions/profileActions";
 import { Provider } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -14,6 +8,13 @@ import {
   browserHistory
 } from "react-router-dom";
 
+import PrivateRoute from "./components/common/PrivateRoute";
+import store from "./store";
+import "./App.css";
+import setAuthToken from "./utils/setAuthToken";
+import logo from "./logo.svg";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentProfile } from "./actions/profileActions";
 //importing components begins
 import Login from "./components/auth/Login";
 

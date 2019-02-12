@@ -47,8 +47,9 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    console.log(errors);
 
+    const { errors } = this.state;
     return (
       <div className="container">
         <Formik
@@ -80,11 +81,8 @@ class Login extends Component {
             <Form>
               <Field type="email" name="email" />
               <ErrorMessage name="email" component="div" />
-
               <Field type="password" name="password" />
-
               <ErrorMessage name="password" component="div" />
-
               <button type="submit" disabled={isSubmitting}>
                 Login
               </button>
