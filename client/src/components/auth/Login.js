@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Formik, FormikProps, Form, Field } from "formik";
+import { Formik, FormikProps, Form, Field, ErrorMessage } from "formik";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import GoogleLogin from "react-google-login";

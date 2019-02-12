@@ -4,7 +4,7 @@ import {
   GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  GET_ERRORS,
+  STORE_ERRORS,
   SET_CURRENT_USER,
   PROFILE_ERROR
 } from "./types";
@@ -71,7 +71,7 @@ export const editProfileBasic = (profileData, history) => {
       history.push("/MyProfileOverview");
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
@@ -88,7 +88,7 @@ export const editProfileBio = (profileData, history) => {
       history.push("/MyProfileOverview");
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }
@@ -105,7 +105,7 @@ export const editProfileSocial = (profileData, history) => {
       history.push("/MyProfileOverview");
     } catch (err) {
       dispatch({
-        type: GET_ERRORS,
+        type: STORE_ERRORS,
         payload: err
       });
     }

@@ -6,6 +6,18 @@ import setAuthToken from "./utils/setAuthToken";
 import logo from "./logo.svg";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
+import { Provider } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  browserHistory
+} from "react-router-dom";
+
+//importing components begins
+import Login from "./components/auth/Login";
+
+//importing components ends
 
 //If we have a jwttoken stored, set as the default for requests
 //check if the jwttoken has expired as well
@@ -24,9 +36,13 @@ if (localStorage.jwtToken) {
 
 class App extends Component {
   render() {
-    <Provider store={store}>
-      <Router history={browserHistory} />
-    </Provider>;
+    return (
+      <Provider store={store}>
+        <Router>
+          <Login />
+        </Router>
+      </Provider>
+    );
   }
 }
 

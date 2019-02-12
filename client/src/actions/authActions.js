@@ -113,7 +113,7 @@ export const logoutUser = () => {
   };
 };
 //Action Creator -----------------------------
-export const SET_CURRENT_USER = decoded => {
+export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
