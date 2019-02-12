@@ -43,7 +43,64 @@ class Register extends Component {
   }
 
   render() {
-    return <div />;
+    const { errors } = this.state;
+    return (
+      <div
+        className="register container
+"
+      >
+        <div className="row">
+          <div className="col-md-8 m-auto">
+            <h1 className="display-4 text-center">Sign Up</h1>
+          </div>
+
+          <div className="col">
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+                password2: ""
+              }}
+              validate={values => {
+                let errors = {};
+                if (!values.email) {
+                  errors.email = "Required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {}}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <Field type="text" name="displayName" label="Full Name" />
+
+                  <ErrorMessage name="displayName" component="div" />
+
+                  <Field type="email" name="email" label="Email" />
+                  <ErrorMessage name="email" component="div" />
+
+                  <Field type="password" name="password" label="Password" />
+                  <ErrorMessage name="password" component="div" />
+                  <Field
+                    type="password2"
+                    name="password2"
+                    label="Confirm Password"
+                  />
+                  <ErrorMessage name="password2" component="div" />
+                  <button type="submit" disabled={isSubmitting}>
+                    Register
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
