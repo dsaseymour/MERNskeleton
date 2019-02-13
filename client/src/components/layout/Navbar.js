@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { clearCurrentProfile } from "../../actions/profileActions";
 import { Formik, FormikProps, Form, Field } from "formik";
+import { withRouter } from "react-router-dom";
+
 class Navbar extends Component {
   static propTypes = {
     prop: PropTypes
@@ -146,4 +148,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser, clearCurrentProfile }
-)(Navbar);
+)(withRouter(Navbar));

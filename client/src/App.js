@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  browserHistory
-} from "react-router-dom";
+import { Router, Route, Switch, browserHistory } from "react-router-dom";
 
 import PrivateRoute from "./components/common/PrivateRoute";
 import store from "./store";

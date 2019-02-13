@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+import { withRouter } from "react-router-dom";
 
 class Login extends Component {
   constructor() {
@@ -32,6 +33,7 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
+      console.log("sunflower");
       this.props.history.push("/userdashboard");
     }
   }
@@ -39,6 +41,8 @@ class Login extends Component {
   componentDidUpdate(nextProps) {
     //    console.log(nextProps);
     // console.log(this.props);
+    console.log("sunflower");
+
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/userdashboard");
     }
@@ -112,4 +116,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loginUser }
-)(Login);
+)(withRouter(Login));
