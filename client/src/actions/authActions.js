@@ -63,8 +63,6 @@ export const loginUser = userData => {
       console.log(decodedPayload);
       dispatch(SET_CURRENT_USER(decodedPayload));
     } catch (err) {
-      console.log("Bad Stuff happened here");
-      console.log(err);
       dispatch({
         type: STORE_ERRORS,
         payload: err
