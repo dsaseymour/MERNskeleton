@@ -55,7 +55,6 @@ export const loginUser = userData => {
       const loginResponse = await axios.post("api/users/login", userData);
       const { token } = loginResponse.data;
       console.log("here");
-
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decodedPayload = jwt_decode(token);

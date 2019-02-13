@@ -3,7 +3,6 @@ import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import PrivateRoute from "./components/common/PrivateRoute";
 import store from "./store";
 import "./App.css";
 import setAuthToken from "./utils/setAuthToken";
@@ -12,6 +11,8 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
 //importing components begins
 import Login from "./components/auth/Login";
+import NotFound from "./components/not-found/NotFound";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 //importing components ends
 
@@ -35,7 +36,12 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Login />
+          <div>
+            <Login />
+            <Switch>
+              <PrivateRoute exact path="/userdashboard" component={NotFound} />
+            </Switch>
+          </div>
         </Router>
       </Provider>
     );

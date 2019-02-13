@@ -44,7 +44,7 @@ class Login extends Component {
     console.log("sunflower");
 
     if (nextProps.auth.isAuthenticated) {
-      //   this.props.history.push("/userdashboard");
+      //      this.props.history.push("/userdashboard");
     }
     /*
 
@@ -105,8 +105,7 @@ class Login extends Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
