@@ -37,53 +37,57 @@ class Login extends Component {
   }
 
   componentDidUpdate(nextProps) {
+    //    console.log(nextProps);
+    // console.log(this.props);
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/userdashboard");
     }
+    /*
 
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    }*/
   }
 
   render() {
-    console.log(errors);
-
-    const { errors } = this.state;
     return (
       <div className="container">
         <Formik
           initialValues={{
-            email: " ",
+            username: " ",
             password: " "
           }}
           validate={values => {
             let errors = {};
-            if (!values.email) {
-              errors.email = "Required";
+            if (!values.username) {
+              errors.username = "Email is Required";
             } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.username)
             ) {
-              errors.email = "Invalid email address";
+              errors.username = "Invalid email address";
             }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
             this.props.loginUser({
-              email: values.email,
+              username: values.username,
               password: values.password
             });
-
             setSubmitting(false);
           }}
         >
           {({ isSubmitting }) => (
-            <Form>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
+            <Form className="form">
+              {this.props.errors ? (
+                <div>{JSON.stringify(this.props.errors.error)}</div>
+              ) : null}
+              <Field type="email" name="username" />
+              <ErrorMessage name="username" component="div" />
               <Field type="password" name="password" />
               <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isSubmitting}
+              >
                 Login
               </button>
             </Form>

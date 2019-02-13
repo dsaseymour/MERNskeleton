@@ -54,12 +54,17 @@ export const loginUser = userData => {
     try {
       const loginResponse = await axios.post("api/users/login", userData);
       const { token } = loginResponse.data;
+      console.log("here");
+
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decodedPayload = jwt_decode(token);
+
       console.log(decodedPayload);
       dispatch(SET_CURRENT_USER(decodedPayload));
     } catch (err) {
+      console.log("Bad Stuff happened here");
+      console.log(err);
       dispatch({
         type: STORE_ERRORS,
         payload: err

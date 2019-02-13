@@ -4,9 +4,7 @@ import {
   GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  STORE_ERRORS,
-  SET_CURRENT_USER,
-  PROFILE_ERROR
+  STORE_ERRORS
 } from "./types";
 //Dispatch Calls -----------------------------
 
@@ -21,6 +19,7 @@ export const getCurrentProfile = () => {
   return async dispatch => {
     try {
       dispatch(setProfileLoading());
+
       const getProfileResponse = await axios.get("/api/profile");
       dispatch({
         type: GET_PROFILE,
